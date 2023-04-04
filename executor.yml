@@ -1,0 +1,40 @@
+# execution:
+# - concurrency: 10
+#   hold-for: 5m
+#   ramp-up: 2m
+#   scenario: sample
+
+# settings:
+#   check-interval: 5s
+#   default-executor: jmeter
+
+
+---
+settings:
+  verbose: true
+  debug: true
+execution:
+  concurrency: ${CONCURRENCY}
+  ramp-up: ${RAMP_UP}
+  hold-for: ${LOAD_TEST_RUNTIME}
+  scenario:
+    script: ${JMX_PATH}
+    variables:
+      ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
+      ENVIRONMENT_URL: ${ENVIRONMENT_URL}
+
+reporting:
+- module: final-stats
+- module: console
+
+modules:
+  jmeter:
+    path: ./local/jmeter
+    properties:
+        log_level: DEBUG
+  console:
+    disable: false
+
+provisioning: local
+
+
